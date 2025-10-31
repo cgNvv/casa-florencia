@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Florencia - Salón de Uñas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #DDD9D7;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #e8f3ea 0%, #fef5f2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 0.3s forwards;
+        }
+
+        .logo {
+            max-width: 400px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #CA8B79;
+            font-weight: 400;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 0.5s forwards;
+            letter-spacing: 1px;
+        }
+
+        /* Divider */
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #CA8B79, transparent);
+            margin: 40px 0;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .divider.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        /* Section styling */
+        section {
+            background: white;
+            margin: 50px 0;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            color: #CA8B79;
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #F39B73, #BACFBF);
+            transition: width 0.8s ease 0.3s;
+        }
+
+        section.visible h2::after {
+            width: 120px;
+        }
+
+        /* Pricing Chart */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: #F5E6E0;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid white;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .pricing-card:hover::before {
+            left: 100%;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .pricing-card h3 {
+            color: #5a4a42;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+            text-shadow: none;
+            font-weight: 600;
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-card .price {
+            font-size: 2.8em;
+            color: #CA8B79;
+            font-weight: bold;
+            margin: 25px 0;
+            text-shadow: none;
+            transition: transform 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-card:hover .price {
+            transform: scale(1.1);
+        }
+
+        .pricing-card .description {
+            color: #6b5b52;
+            font-size: 1.05em;
+            line-height: 1.9;
+            min-height: 95px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Booking Form */
+        .form-group {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        section.visible .form-group {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .form-group:nth-child(1) { transition-delay: 0.1s; }
+        .form-group:nth-child(2) { transition-delay: 0.2s; }
+        .form-group:nth-child(3) { transition-delay: 0.3s; }
+        .form-group:nth-child(4) { transition-delay: 0.4s; }
+        .form-group:nth-child(5) { transition-delay: 0.5s; }
+        .form-group:nth-child(6) { transition-delay: 0.6s; }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #CA8B79;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .form-group:focus-within label {
+            color: #F39B73;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #BACFBF;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #F39B73;
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 155, 115, 0.2);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #F39B73 0%, #CA8B79 100%);
+            color: white;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+            width: 100%;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-submit:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(243, 155, 115, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #CA8B79;
+            font-size: 1em;
+            opacity: 0;
+            animation: fadeIn 1s ease 1s forwards;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #F39B73, #CA8B79);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 1.5em;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(243, 155, 115, 0.4);
+        }
+
+        /* WhatsApp button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 90px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            font-size: 2em;
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Loading animation for form */
+        .btn-submit.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+
+            section {
+                padding: 30px 20px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .pricing-card {
+                padding: 25px 20px;
+            }
+
+            .pricing-card h3 {
+                font-size: 1.4em;
+                min-height: 50px;
+                margin-bottom: 10px;
+            }
+
+            .pricing-card .price {
+                font-size: 2em;
+                margin: 15px 0;
+                min-height: 60px;
+            }
+
+            .pricing-card .description {
+                font-size: 0.95em;
+                line-height: 1.6;
+                min-height: 70px;
+            }
+
+            .logo {
+                max-width: 280px;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            header {
+                padding: 30px 20px;
+            }
+
+            .whatsapp-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 100px;
+                right: 20px;
+            }
+
+            .whatsapp-btn svg {
+                width: 28px;
+                height: 28px;
+            }
+
+            .scroll-top {
+                width: 45px;
+                height: 45px;
+                bottom: 30px;
+                right: 20px;
+            }
+        }
+
+        /* Parallax effect container */
+        .parallax-section {
+            position: relative;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Casa Florencia Logo" class="logo">
+        </div>
+        <p class="subtitle">Salón de Uñas & Manicura Profesional</p>
+    </header>
+
+    <div class="container">
+        <div class="divider"></div>
+
+        <!-- Pricing Section -->
+        <section id="precios">
+            <h2>Nuestros Servicios</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card" data-service="clasica">
+                    <h3>Manicura Clásica</h3>
+                    <div class="price">₲150.000</div>
+                    <p class="description">
+                        Limado, cutículas, esmaltado tradicional<br>
+                        Duración: 45 min
+                    </p>
+                </div>
+
+                <div class="pricing-card" data-service="semipermanente">
+                    <h3>Manicura Semipermanente</h3>
+                    <div class="price">₲200.000</div>
+                    <p class="description">
+                        Esmaltado de larga duración<br>
+                        Hasta 3 semanas perfectas<br>
+                        Duración: 60 min
+                    </p>
+                </div>
+
+                <div class="pricing-card" data-service="acrilicas">
+                    <h3>Uñas Acrílicas</h3>
+                    <div class="price">₲280.000</div>
+                    <p class="description">
+                        Extensión y diseño personalizado<br>
+                        Resistentes y elegantes<br>
+                        Duración: 90 min
+                    </p>
+                </div>
+
+                <div class="pricing-card" data-service="gel">
+                    <h3>Uñas de Gel</h3>
+                    <div class="price">₲250.000</div>
+                    <p class="description">
+                        Extensión natural y flexible<br>
+                        Acabado brillante<br>
+                        Duración: 90 min
+                    </p>
+                </div>
+
+                <div class="pricing-card" data-service="especiales">
+                    <h3>Diseños Especiales</h3>
+                    <div class="price">Desde ₲50.000</div>
+                    <p class="description">
+                        Nail art, pedrería, efectos especiales<br>
+                        Precio según complejidad
+                    </p>
+                </div>
+
+                <div class="pricing-card" data-service="pedicura">
+                    <h3>Pedicura Spa</h3>
+                    <div class="price">₲180.000</div>
+                    <p class="description">
+                        Exfoliación, hidratación, esmaltado<br>
+                        Relajación total<br>
+                        Duración: 60 min
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- Booking Section -->
+        <section id="reservar">
+            <h2>Reserva tu Cita</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo *</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="servicio">Tipo de Servicio *</label>
+                    <select id="servicio" name="servicio" required>
+                        <option value="">Selecciona un servicio</option>
+                        <option value="Manicura Clásica">Manicura Clásica - ₲150.000</option>
+                        <option value="Manicura Semipermanente">Manicura Semipermanente - ₲200.000</option>
+                        <option value="Uñas Acrílicas">Uñas Acrílicas - ₲280.000</option>
+                        <option value="Uñas de Gel">Uñas de Gel - ₲250.000</option>
+                        <option value="Diseños Especiales">Diseños Especiales - Desde ₲50.000</option>
+                        <option value="Pedicura Spa">Pedicura Spa - ₲180.000</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha">Fecha Preferida *</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="hora">Hora Preferida *</label>
+                    <select id="hora" name="hora" required>
+                        <option value="">Selecciona una hora</option>
+                        <option value="08:00">08:00 AM</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">01:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:00">03:00 PM</option>
+                        <option value="16:00">04:00 PM</option>
+                        <option value="17:00">05:00 PM</option>
+                        <option value="18:00">06:00 PM</option>
+                        <option value="19:00">07:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono de Contacto</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="+595...">
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios Adicionales</label>
+                    <textarea id="comentarios" name="comentarios" rows="4" placeholder="¿Algún diseño especial en mente? ¿Colores preferidos?"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Enviar Reserva por WhatsApp
+                </button>
+            </form>
+        </section>
+
+        <div class="divider"></div>
+    </div>
+
+    <footer>
+        <p>Casa Florencia - Tu belleza es nuestra pasión</p>
+        <p>Villa Elisa - Paraguay | WhatsApp: +595 981 450744</p>
+    </footer>
+
+    <!-- WhatsApp button -->
+    <a href="https://wa.me/595981450744" target="_blank" class="whatsapp-btn" title="Chatea con nosotros">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
+            <path d="M16 0C7.164 0 0 7.163 0 16c0 2.826.736 5.586 2.138 8.04L.07 31.93l8.105-2.038A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.455c-2.492 0-4.936-.685-7.065-1.985l-.508-.298-5.255 1.32 1.36-5.115-.327-.525A13.397 13.397 0 012.545 16c0-7.456 6.09-13.545 13.545-13.545S29.636 8.544 29.636 16 23.546 29.455 16 29.455zm7.44-10.113c-.408-.204-2.418-1.194-2.794-1.33-.376-.136-.65-.204-.922.204-.272.407-1.054 1.33-1.293 1.602-.238.272-.476.306-.884.102-.408-.204-1.722-.635-3.28-2.024-1.213-1.082-2.032-2.418-2.27-2.826-.238-.407-.025-.628.179-.831.183-.183.407-.476.611-.714.204-.238.272-.407.408-.678.136-.272.068-.51-.034-.714-.102-.204-.922-2.224-1.264-3.045-.333-.8-.67-.692-.922-.705-.238-.013-.51-.016-.782-.016s-.714.102-1.09.51c-.376.407-1.436 1.404-1.436 3.423s1.47 3.97 1.674 4.242c.204.272 2.88 4.396 6.978 6.165.975.422 1.737.673 2.33.862.979.31 1.87.267 2.574.162.785-.117 2.418-.988 2.76-1.942.341-.954.341-1.772.238-1.942-.102-.17-.374-.272-.782-.476z"/>
+        </svg>
+    </a>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scrollTop">↑</div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections and dividers
+        document.querySelectorAll('section, .divider').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Scroll to top button functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Pricing card click animation
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Scroll to booking section
+                document.getElementById('reservar').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                // Pre-select the service
+                const serviceName = this.querySelector('h3').textContent;
+                const serviceSelect = document.getElementById('servicio');
+
+                // Find and select the matching option
+                for (let option of serviceSelect.options) {
+                    if (option.text.includes(serviceName)) {
+                        serviceSelect.value = option.value;
+                        // Trigger change animation
+                        serviceSelect.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            serviceSelect.style.transform = 'scale(1)';
+                        }, 300);
+                        break;
+                    }
+                }
+            });
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('fecha').setAttribute('min', today);
+
+        // Form validation and submission
+        const bookingForm = document.getElementById('bookingForm');
+        const submitBtn = bookingForm.querySelector('.btn-submit');
+
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Add loading state
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Preparando mensaje...';
+
+            const nombre = document.getElementById('nombre').value;
+            const servicio = document.getElementById('servicio').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+            const telefono = document.getElementById('telefono').value;
+            const comentarios = document.getElementById('comentarios').value;
+
+            // Format date to be more readable
+            const dateObj = new Date(fecha + 'T00:00:00');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaFormateada = dateObj.toLocaleDateString('es-ES', options);
+
+            // Create WhatsApp message
+            let mensaje = `Hola! Me gustaría reservar una cita en Casa Florencia\n\n`;
+            mensaje += `*Nombre:* ${nombre}\n`;
+            mensaje += `*Servicio:* ${servicio}\n`;
+            mensaje += `*Fecha:* ${fechaFormateada}\n`;
+            mensaje += `*Hora:* ${hora}\n`;
+
+            if (telefono) {
+                mensaje += `*Teléfono:* ${telefono}\n`;
+            }
+
+            if (comentarios) {
+                mensaje += `*Comentarios:* ${comentarios}\n`;
+            }
+
+            mensaje += `\nEspero su confirmación! Gracias`;
+
+            // Encode message for URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+
+            // WhatsApp URL
+            const whatsappURL = `https://wa.me/595981450744?text=${mensajeCodificado}`;
+
+            // Simulate processing time for better UX
+            setTimeout(() => {
+                // Open WhatsApp
+                window.open(whatsappURL, '_blank');
+
+                // Reset button
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Enviar Reserva por WhatsApp';
+
+                // Optional: Reset form
+                // bookingForm.reset();
+            }, 800);
+        });
+
+        // Smooth input animations
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateX(5px)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add parallax effect to header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const scrolled = window.pageYOffset;
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
